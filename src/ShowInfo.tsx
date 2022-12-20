@@ -108,6 +108,7 @@ const ShowInfo: FC = () => {
             {" "}
             <p>{info.summary}</p>
           </div>
+          <span className="flex grow"></span>
 
           <div className="p-2">
             <div className="flex flex-col   border border-gray-300 bg-gray-200 shadow-md p-3 ">
