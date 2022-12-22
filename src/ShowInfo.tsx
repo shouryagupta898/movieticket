@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { FC, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { AiOutlineRollback, AiOutlineLoading3Quarters } from "react-icons/ai";
 
 export interface stateObj {
   id?: number;
@@ -88,11 +89,18 @@ const ShowInfo: FC = () => {
   }, []);
 
   if (!info) {
-    return <div className="text-white">Loading...</div>;
+    return (
+      <div>
+        <AiOutlineLoading3Quarters className="text-red-500 text-3xl animate-spin" />
+      </div>
+    );
   }
 
   return (
     <div className="m-10 bg-white h-96 p-4 ">
+      <Link to="/">
+        <AiOutlineRollback className="text-2xl text-blue-500" />
+      </Link>
       <div className=" flex ">
         <div className="h-70 w-60">
           {info.image && (
@@ -122,8 +130,9 @@ const ShowInfo: FC = () => {
                   {info.network?.officialSite}
                 </a>
                 <ul>
-                  <span className="font-bold">Schedule:</span> {info.schedule?.days}{" "}
-                  at {info.schedule?.time} ({info.runtime} min)
+                  <span className="font-bold">Schedule:</span>{" "}
+                  {info.schedule?.days} at {info.schedule?.time} ({info.runtime}{" "}
+                  min)
                 </ul>
                 <ul>
                   <span className="font-bold">Status:</span>
@@ -132,9 +141,12 @@ const ShowInfo: FC = () => {
                 <ul>
                   <span className="font-bold">Show Type:</span> {info.type}
                 </ul>
-                <ul>
-                  <span className="font-bold">Genres:</span> {info.genres}
-                </ul>
+                {info.genres && (
+                  <ul>
+                    <span className="font-bold">Genres:</span> {info.genres[0]}|{" "}
+                    {info.genres[1]}
+                  </ul>
+                )}
                 <ul>
                   <span className="font-bold">Name:</span> {info.name}
                 </ul>
