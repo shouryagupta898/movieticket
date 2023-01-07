@@ -3,25 +3,31 @@ import React, { FC, memo, useEffect } from "react";
 import { AiOutlineLoading3Quarters, AiOutlineRollback } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
-import { ShowDetailLoaded, showsLoaded } from "./action/action";
+import { showCast, ShowDetailLoaded, showsLoaded } from "./action/action";
 import { Show, ShowClass } from "./model/Show";
 import {
+  showCastSel,
   showDetailSelector,
   showsLoadingSelector,
   showsSelector,
 } from "./selector/show";
+import ShowCast from "./showCast";
 
 const ShowDetail: FC = () => {
   const params = useParams();
   const id = Number(params.id);
   const loading = useSelector(showsLoadingSelector);
   const showId = useSelector(showDetailSelector);
-  console.log("showDetails", showId);
+  const cast = useSelector(showCastSel);
+  console.log("cast", cast);
   const dispatch = useDispatch();
 
   useEffect(() => {
     axios.get("https://api.tvmaze.com/shows/" + id).then((response) => {
       dispatch(ShowDetailLoaded(response.data));
+      axios
+        .get(` https://api.tvmaze.com/shows/${id}/cast`)
+        .then((resp) => dispatch(showCast(resp.data)));
     });
   }, [id]);
 
@@ -78,6 +84,16 @@ const ShowDetail: FC = () => {
               {showId.officialSite}
             </ul>
           </div>
+        </div>
+      </div>
+      <div className="flex flex-col  bg-white m-4 p-4">
+        <h1 className="font-serif font-bold text-2xl self-center">Cast</h1>
+        <div className="grid grid-cols-5 space-x-3 space-y-3 m-3 ">
+          {cast.map((c) => (
+            <div key={c.character.id}>
+              <ShowCast {...c} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

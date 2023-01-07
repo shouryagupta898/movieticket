@@ -19,3 +19,8 @@ export const showDetailSelector = createSelector(
   showsStateSelector,
   (showState) => showState.ShowClass
 );
+
+export const showCastSel = createSelector(
+  showsStateSelector,
+  (showState) => showState.showCast
+);

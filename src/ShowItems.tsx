@@ -8,7 +8,7 @@ const ShowItems: FC<Show> = ({ score, show }) => {
       <div className="h-60 w-60 ">
         <img
           className="h-full w-full object-cover border border-black shadow-md"
-          src={show.image?.original}
+          src={show.image?.original || show.image?.medium}
         />
       </div>
       <div className="flex flex-col my-3">
